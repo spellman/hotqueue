@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.1
+=================
+- Enable use of ``HotQueue.worker()`` decorator without any keyword arguments, like ``@queue.worker``
+
 Changes in v0.2.0
 =================
 - Renamed ``dequeue()`` method on ``HotQueue`` to ``get()``
