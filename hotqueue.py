@@ -5,7 +5,10 @@ within your Python programs.
 """
 
 from functools import wraps
-import cPickle
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 
 from redis import Redis
 
@@ -93,7 +96,7 @@ class HotQueue(object):
         else:
             msg = self.__redis.lpop(self.key)
         if msg is not None:
-            msg = cPickle.loads(msg)
+            msg = pickle.loads(msg)
         return msg
     
     def put(self, *msgs):
@@ -103,7 +106,7 @@ class HotQueue(object):
         >>> queue.put('another message')
         """
         for msg in msgs:
-            msg = cPickle.dumps(msg)
+            msg = pickle.dumps(msg)
             self.__redis.rpush(self.key, msg)
     
     def worker(self, *args, **kwargs):
