@@ -28,8 +28,6 @@ Explore Documentation
 Requirements
 ============
 
-HotQueue requires, at a minimum:
-
-- Python version 2.6+ (not Python 3 compatible)
-- `Redis <http://code.google.com/p/redis/>`_ version 1.3.1+
-- `redis-py <http://pypi.python.org/pypi/redis/2.0.0>`_ version 2.0.0+
+- Python 2.5+ (tested on versions 2.5.4, 2.6.1, and 2.7.1)
+- `Redis <http://code.google.com/p/redis/>`_ 1.3.1+
+- `redis-py <http://pypi.python.org/pypi/redis/2.0.0>`_ 2.0.0+
