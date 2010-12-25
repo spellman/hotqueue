@@ -13,6 +13,16 @@ import unittest
 from hotqueue import HotQueue
 
 
+class DummySerializer(object):
+    """Dummy serializer for use in tests."""
+    @staticmethod
+    def dumps(s):
+        return s
+    @staticmethod
+    def loads(s):
+        return s
+
+
 class HotQueueTestCase(unittest.TestCase):
     
     def setUp(self):
@@ -22,6 +32,27 @@ class HotQueueTestCase(unittest.TestCase):
     def tearDown(self):
         """Clear the queue after the test."""
         self.queue.clear()
+    
+    def test_arguments(self):
+        """Test that HotQueue.__init__ accepts arguments correctly, and that
+        the Redis key is correctly formed.
+        """
+        kwargs = {
+            'name': "testqueue",
+            'serializer': DummySerializer,
+            'host': "localhost",
+            'port': 6379,
+            'db': 0}
+        # Update the HotQueue instance:
+        self.queue = HotQueue(**kwargs)
+        # Ensure that the properties of the instance are as expected:
+        self.assertEqual(self.queue.name, kwargs['name'])
+        self.assertEqual(self.queue.key, "hotqueue:%s" % kwargs['name'])
+        self.assertEqual(self.queue.serializer, kwargs['serializer'])
+        self.assertEqual(self.queue._HotQueue__redis.host, kwargs['host'])
+        self.assertEqual(self.queue._HotQueue__redis.host, kwargs['host'])
+        self.assertEqual(self.queue._HotQueue__redis.port, kwargs['port'])
+        self.assertEqual(self.queue._HotQueue__redis.db, kwargs['db'])
     
     def test_consume(self):
         """Test the consume generator method."""
@@ -100,7 +131,15 @@ class HotQueueTestCase(unittest.TestCase):
         consumer.start()
         for thread in [putter, consumer]:
             thread.join()
-        self.assertEqual(msgs, ['message 0', 'message 1', 'message 2'])
+        self.assertEqual(msgs, ["message 0", "message 1", "message 2"])
+    
+    def test_custom_serializer(self):
+        """Test the use of a custom serializer."""
+        self.queue.serializer = DummySerializer
+        phrase = "my message"
+        self.queue.put(phrase)
+        msg = self.queue.get()
+        self.assertEqual(msg, phrase)
 
 
 if __name__ == "__main__":

@@ -28,15 +28,23 @@ class HotQueue(object):
     """Simple FIFO message queue stored in a Redis list. Example:
 
     >>> from hotqueue import HotQueue
-    >>> queue = HotQueue('myqueue', host='localhost', port=6379, db=0)
+    >>> queue = HotQueue("myqueue", host="localhost", port=6379, db=0)
     
     :param name: name of the queue
+    :param serializer: the class or module to serialize msgs with, must have
+        methods or functions named ``dumps`` and ``loads``,
+        `pickle <http://docs.python.org/library/pickle.html>`_ will be used
+        if ``None`` is given
     :param kwargs: additional kwargs to pass to :class:`Redis`, most commonly
         :attr:`host`, :attr:`port`, :attr:`db`
     """
     
-    def __init__(self, name, **kwargs):
+    def __init__(self, name, serializer=None, **kwargs):
         self.name = name
+        if serializer is not None:
+            self.serializer = serializer
+        else:
+            self.serializer = pickle
         self.__redis = Redis(**kwargs)
     
     def __len__(self):
@@ -99,17 +107,17 @@ class HotQueue(object):
         else:
             msg = self.__redis.lpop(self.key)
         if msg is not None:
-            msg = pickle.loads(msg)
+            msg = self.serializer.loads(msg)
         return msg
     
     def put(self, *msgs):
         """Put one or more messages onto the queue. Example:
     
-        >>> queue.put('my message')
-        >>> queue.put('another message')
+        >>> queue.put("my message")
+        >>> queue.put("another message")
         """
         for msg in msgs:
-            msg = pickle.dumps(msg)
+            msg = self.serializer.dumps(msg)
             self.__redis.rpush(self.key, msg)
     
     def worker(self, *args, **kwargs):

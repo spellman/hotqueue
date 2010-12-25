@@ -10,7 +10,7 @@ Connecting to Redis
 Creating a queue is as simple as creating a :class:`~hotqueue.HotQueue` instance:
 
     >>> from hotqueue import HotQueue
-    >>> queue = HotQueue('myqueue', host='localhost', port=6379, db=0)
+    >>> queue = HotQueue("myqueue", host="localhost", port=6379, db=0)
 
 The queue will be stored a Redis list key named ``hotqueue:myqueue``, on the Redis server running at ``localhost:6379``, in database ``0``. The :attr:`host`, :attr:`port` and :attr:`db` arguments are optional.
 
@@ -24,7 +24,7 @@ Then you may have one (or many) Python programs pushing to the queue using :meth
 
 You can push more than one item onto the queue at once:
 
-    >>> queue.put(6, 'my message', 7)
+    >>> queue.put(6, "my message", 7)
 
 You can safely push **any Python object** that can be `pickled <http://docs.python.org/library/pickle.html>`_. Let's use Python's built-in ``Decimal`` as an example:
 
@@ -69,7 +69,7 @@ An `even better` way to pull items off the queue is to use the :meth:`hotqueue.H
 
     from hotqueue import HotQueue
     
-    queue = HotQueue('myqueue', host='localhost', port=6379, db=0)
+    queue = HotQueue("myqueue", host="localhost", port=6379, db=0)
     
     @queue.worker
     def square(num):
@@ -86,3 +86,36 @@ It will wait indefinitely and print the square of any integers it pulls off the 
 To distribute the work, run a second instance of ``square()``. You now have two queue workers. You can run as many workers as you like, and no two workers will ever receive the same message.
 
 To run and manage your worker processes, you could use something like `Supervisord <http://supervisord.org/>`_.
+
+Custom Serialization (JSON, etc)
+================================
+
+If you don't want to use the `pickle <http://docs.python.org/library/pickle.html>`_ serializer, you can specify any other class or module that has the same API.
+
+To serialize your data as JSON, you can use the `json <http://docs.python.org/library/json.html>`_ module. Here's an example:
+
+    >>> import json
+    >>> from hotqueue import HotQueue
+    >>> queue = HotQueue("myqueue", serializer=json, host="localhost", port=6379, db=0)
+    >>> queue.put({'name': "Richard Henry", 'eyes': "blue"})
+    >>> queue.get()
+    {'name': 'Richard Henry', 'eyes': 'blue'}
+
+JSON serialization is particularly useful if you will be accessing this Redis list from programming languages other than Python, or want to ensure that your queue can be read between Python versions.
+
+If you can, you should use `simplejson <http://pypi.python.org/pypi/simplejson/>`_ instead of `json <http://docs.python.org/library/json.html>`_. It's updated more frequently, and can be significantly faster than the module that ships with the standard library. You should take a look at `jsonpickle <http://jsonpickle.github.com/>`_ if you want to serialize more complex Python data structures to JSON.
+
+Feel free to write your own serializer. Here's a dummy class to give you an idea of the API required::
+
+    class DummySerializer(object):
+        """Serialization class that doesn't do anything. Fill in the dumps and
+        loads methods with your own code.
+        """
+        @staticmethod
+        def dumps(obj):
+            """Serialize the given object."""
+            return obj
+        @staticmethod
+        def loads(data):
+            """De-serialize the given data back to an object."""
+            return data
