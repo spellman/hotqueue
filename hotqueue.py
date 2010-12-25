@@ -18,6 +18,11 @@ __all__ = ['HotQueue']
 __version__ = '0.2.1'
 
 
+def key_for_name(name):
+    """Return the key name used to store the given queue name in Redis."""
+    return 'hotqueue:%s' % name
+
+
 class HotQueue(object):
     
     """Simple FIFO message queue stored in a Redis list. Example:
@@ -43,10 +48,8 @@ class HotQueue(object):
     
     @property
     def key(self):
-        """Return the key name used to store this queue in Redis, which is
-        a concatenation of "hotqueue:" and :attr:`name`.
-        """
-        return 'hotqueue:%s' % self.name
+        """Return the key name used to store this queue in Redis."""
+        return key_for_name(self.name)
     
     def clear(self):
         """Clear the queue of all messages, deleting the Redis key."""
