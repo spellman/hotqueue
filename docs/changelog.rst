@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.2
+=================
+- Added ``key_for_name`` function
+
 Changes in v0.2.1
 =================
 - ``HotQueue.worker`` decorator method can now be used without any keyword arguments
