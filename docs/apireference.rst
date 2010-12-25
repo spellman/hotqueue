@@ -2,9 +2,6 @@
 API Reference
 =============
 
-HotQueue
-========
-
 .. autoclass:: hotqueue.HotQueue
 
     .. autoattribute:: hotqueue.HotQueue.key

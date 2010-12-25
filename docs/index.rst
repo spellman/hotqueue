@@ -8,7 +8,7 @@ The main advantage of this model is that there is no queue server to run, other 
 
 .. code-block:: console
 
-    # easy_install -U hotqueue
+    # pip install -U hotqueue
 
 The source code is available on `GitHub <http://github.com/richardhenry/hotqueue>`_.
 
@@ -29,5 +29,5 @@ Requirements
 ============
 
 - Python 2.5+ (tested on versions 2.5.4, 2.6.1, and 2.7.1)
-- `Redis <http://code.google.com/p/redis/>`_ 1.3.1+
+- `redis-server <http://redis.io/>`_ 1.3.1+
 - `redis-py <http://pypi.python.org/pypi/redis/2.0.0>`_ 2.0.0+
