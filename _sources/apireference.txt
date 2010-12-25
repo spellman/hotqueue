@@ -2,8 +2,7 @@
 API Reference
 =============
 
-HotQueue
-========
+.. autofunction:: hotqueue.key_for_name
 
 .. autoclass:: hotqueue.HotQueue
 

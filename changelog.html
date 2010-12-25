@@ -6,22 +6,22 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Changelog &mdash; HotQueue v0.2.1 documentation</title>
-    <link rel="stylesheet" href="static/warm.css" type="text/css" />
-    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <title>Changelog &mdash; HotQueue v0.2.2 documentation</title>
+    <link rel="stylesheet" href="_static/warm.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="static/jquery.js"></script>
-    <script type="text/javascript" src="static/underscore.js"></script>
-    <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="HotQueue v0.2.1 documentation" href="index.html" />
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="HotQueue v0.2.2 documentation" href="index.html" />
     <link rel="prev" title="API Reference" href="apireference.html" /> 
   </head>
   <body>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="apireference.html" title="API Reference"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -45,24 +45,30 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="changes-in-v0-2-2">
+<h2>Changes in v0.2.2<a class="headerlink" href="#changes-in-v0-2-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added <tt class="docutils literal"><span class="pre">key_for_name</span></tt> function</li>
+</ul>
+</div>
 <div class="section" id="changes-in-v0-2-1">
 <h2>Changes in v0.2.1<a class="headerlink" href="#changes-in-v0-2-1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Enable use of <tt class="docutils literal"><span class="pre">HotQueue.worker()</span></tt> decorator without any keyword arguments, like <tt class="docutils literal"><span class="pre">&#64;queue.worker</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">HotQueue.worker</span></tt> decorator method can now be used without any keyword arguments</li>
 </ul>
 </div>
 <div class="section" id="changes-in-v0-2-0">
 <h2>Changes in v0.2.0<a class="headerlink" href="#changes-in-v0-2-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Renamed <tt class="docutils literal"><span class="pre">dequeue()</span></tt> method on <tt class="docutils literal"><span class="pre">HotQueue</span></tt> to <tt class="docutils literal"><span class="pre">get()</span></tt></li>
-<li>Renamed <tt class="docutils literal"><span class="pre">enqueue()</span></tt> method on <tt class="docutils literal"><span class="pre">HotQueue</span></tt> to <tt class="docutils literal"><span class="pre">put()</span></tt></li>
-<li>Added <tt class="docutils literal"><span class="pre">HotQueue.worker()</span></tt> function decorator</li>
-<li><tt class="docutils literal"><span class="pre">HotQueue.get()</span></tt> method now supports block and timeout arguments</li>
+<li>Renamed <tt class="docutils literal"><span class="pre">HotQueue.dequeue</span></tt> method to <tt class="docutils literal"><span class="pre">get</span></tt></li>
+<li>Renamed <tt class="docutils literal"><span class="pre">HotQueue.enqueue</span></tt> method to <tt class="docutils literal"><span class="pre">put</span></tt></li>
+<li>Added <tt class="docutils literal"><span class="pre">HotQueue.worker</span></tt> decorator method</li>
+<li><tt class="docutils literal"><span class="pre">HotQueue.get</span></tt> method now supports block and timeout arguments</li>
 <li>Added test suite</li>
 </ul>
 </div>
-<div class="section" id="changes-in-v0-1">
-<h2>Changes in v0.1<a class="headerlink" href="#changes-in-v0-1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="changes-in-v0-1-0">
+<h2>Changes in v0.1.0<a class="headerlink" href="#changes-in-v0-1-0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Initial release</li>
 </ul>
@@ -78,9 +84,10 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#changes-in-v0-2-2">Changes in v0.2.2</a></li>
 <li><a class="reference internal" href="#changes-in-v0-2-1">Changes in v0.2.1</a></li>
 <li><a class="reference internal" href="#changes-in-v0-2-0">Changes in v0.2.0</a></li>
-<li><a class="reference internal" href="#changes-in-v0-1">Changes in v0.1</a></li>
+<li><a class="reference internal" href="#changes-in-v0-1-0">Changes in v0.1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -90,7 +97,7 @@
                         title="previous chapter">API Reference</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="sources/changelog.txt"
+    <li><a href="_sources/changelog.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -119,12 +126,12 @@
         <li class="right" >
           <a href="apireference.html" title="API Reference"
              >previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2010, Richard Henry.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.3.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.5.
     </div>
   </body>
 </html>
