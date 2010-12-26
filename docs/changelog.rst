@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.3
+=================
+- Added support for custom serialization (JSON, etc)
+
 Changes in v0.2.2
 =================
 - Added ``key_for_name`` function
