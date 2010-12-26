@@ -6,13 +6,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tutorial &mdash; HotQueue v0.2.2 documentation</title>
+    <title>Tutorial &mdash; HotQueue v0.2.3 documentation</title>
     <link rel="stylesheet" href="_static/warm.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.2',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="HotQueue v0.2.2 documentation" href="index.html" />
+    <link rel="top" title="HotQueue v0.2.3 documentation" href="index.html" />
     <link rel="next" title="API Reference" href="apireference.html" />
     <link rel="prev" title="HotQueue User Documentation" href="index.html" /> 
   </head>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="index.html" title="HotQueue User Documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,7 +54,7 @@
 <h2>Connecting to Redis<a class="headerlink" href="#connecting-to-redis" title="Permalink to this headline">¶</a></h2>
 <p>Creating a queue is as simple as creating a <a class="reference internal" href="apireference.html#hotqueue.HotQueue" title="hotqueue.HotQueue"><tt class="xref py py-class docutils literal"><span class="pre">HotQueue</span></tt></a> instance:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hotqueue</span> <span class="kn">import</span> <span class="n">HotQueue</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&#39;myqueue&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The queue will be stored a Redis list key named <tt class="docutils literal"><span class="pre">hotqueue:myqueue</span></tt>, on the Redis server running at <tt class="docutils literal"><span class="pre">localhost:6379</span></tt>, in database <tt class="docutils literal"><span class="pre">0</span></tt>. The <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">port</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">db</span></tt> arguments are optional.</p>
@@ -67,7 +67,7 @@
 </pre></div>
 </div>
 <p>You can push more than one item onto the queue at once:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s">&#39;my message&#39;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s">&quot;my message&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can safely push <strong>any Python object</strong> that can be <a class="reference external" href="http://docs.python.org/library/pickle.html">pickled</a>. Let&#8217;s use Python&#8217;s built-in <tt class="docutils literal"><span class="pre">Decimal</span></tt> as an example:</p>
@@ -111,7 +111,7 @@
 <p>An <cite>even better</cite> way to pull items off the queue is to use the <a class="reference internal" href="apireference.html#hotqueue.HotQueue.worker" title="hotqueue.HotQueue.worker"><tt class="xref py py-meth docutils literal"><span class="pre">hotqueue.HotQueue.worker()</span></tt></a> decorator. Using this decorator is like wrapping the decorated function in a <a class="reference internal" href="apireference.html#hotqueue.HotQueue.consume" title="hotqueue.HotQueue.consume"><tt class="xref py py-meth docutils literal"><span class="pre">hotqueue.HotQueue.consume()</span></tt></a> loop. Here&#8217;s an example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">hotqueue</span> <span class="kn">import</span> <span class="n">HotQueue</span>
 
-<span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&#39;myqueue&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="nd">@queue.worker</span>
 <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
@@ -129,6 +129,36 @@
 <p>To distribute the work, run a second instance of <tt class="docutils literal"><span class="pre">square()</span></tt>. You now have two queue workers. You can run as many workers as you like, and no two workers will ever receive the same message.</p>
 <p>To run and manage your worker processes, you could use something like <a class="reference external" href="http://supervisord.org/">Supervisord</a>.</p>
 </div>
+<div class="section" id="custom-serialization-json-etc">
+<h2>Custom Serialization (JSON, etc)<a class="headerlink" href="#custom-serialization-json-etc" title="Permalink to this headline">¶</a></h2>
+<p>If you don&#8217;t want to use the <a class="reference external" href="http://docs.python.org/library/pickle.html">pickle</a> serializer, you can specify any other class or module that has the same API.</p>
+<p>To serialize your data as JSON, you can use the <a class="reference external" href="http://docs.python.org/library/json.html">json</a> module. Here&#8217;s an example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">json</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hotqueue</span> <span class="kn">import</span> <span class="n">HotQueue</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="n">json</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Richard Henry&quot;</span><span class="p">,</span> <span class="s">&#39;eyes&#39;</span><span class="p">:</span> <span class="s">&quot;blue&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="go">{&#39;name&#39;: &#39;Richard Henry&#39;, &#39;eyes&#39;: &#39;blue&#39;}</span>
+</pre></div>
+</div>
+<p>JSON serialization is particularly useful if you will be accessing this Redis list from programming languages other than Python, or want to ensure that your queue can be read between Python versions.</p>
+<p>If you can, you should use <a class="reference external" href="http://pypi.python.org/pypi/simplejson/">simplejson</a> instead of <a class="reference external" href="http://docs.python.org/library/json.html">json</a>. It&#8217;s updated more frequently, and can be significantly faster than the module that ships with the standard library. You should take a look at <a class="reference external" href="http://jsonpickle.github.com/">jsonpickle</a> if you want to serialize more complex Python data structures to JSON.</p>
+<p>Feel free to write your own serializer. Here&#8217;s a dummy class to give you an idea of the API required:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DummySerializer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Serialization class that doesn&#39;t do anything. Fill in the dumps and</span>
+<span class="sd">    loads methods with your own code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Serialize the given object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">obj</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;De-serialize the given data back to an object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -145,6 +175,7 @@
 <li><a class="reference internal" href="#getting-items-off-the-queue">Getting Items Off the Queue</a></li>
 <li><a class="reference internal" href="#consuming-the-queue">Consuming the Queue</a></li>
 <li><a class="reference internal" href="#writing-a-queue-worker">Writing a Queue Worker</a></li>
+<li><a class="reference internal" href="#custom-serialization-json-etc">Custom Serialization (JSON, etc)</a></li>
 </ul>
 </li>
 </ul>
@@ -189,7 +220,7 @@
         <li class="right" >
           <a href="index.html" title="HotQueue User Documentation"
              >previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

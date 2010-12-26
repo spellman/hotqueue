@@ -6,13 +6,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>API Reference &mdash; HotQueue v0.2.2 documentation</title>
+    <title>API Reference &mdash; HotQueue v0.2.3 documentation</title>
     <link rel="stylesheet" href="_static/warm.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.2',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="HotQueue v0.2.2 documentation" href="index.html" />
+    <link rel="top" title="HotQueue v0.2.3 documentation" href="index.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
     <link rel="prev" title="Tutorial" href="tutorial.html" /> 
   </head>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="tutorial.html" title="Tutorial"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,10 +57,10 @@
 
 <dl class="class">
 <dt id="hotqueue.HotQueue">
-<em class="property">class </em><tt class="descclassname">hotqueue.</tt><tt class="descname">HotQueue</tt><big>(</big><em>name</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#hotqueue.HotQueue" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">hotqueue.</tt><tt class="descname">HotQueue</tt><big>(</big><em>name</em>, <em>serializer=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#hotqueue.HotQueue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple FIFO message queue stored in a Redis list. Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hotqueue</span> <span class="kn">import</span> <span class="n">HotQueue</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&#39;myqueue&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -69,6 +69,10 @@
 <tbody valign="top">
 <tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>name</strong> &#8211; name of the queue</li>
+<li><strong>serializer</strong> &#8211; the class or module to serialize msgs with, must have
+methods or functions named <tt class="docutils literal"><span class="pre">loads</span></tt> and <tt class="docutils literal"><span class="pre">dumps</span></tt>,
+<a class="reference external" href="http://docs.python.org/library/pickle.html">pickle</a> will be used
+if <tt class="xref docutils literal"><span class="pre">None</span></tt> is given</li>
 <li><strong>kwargs</strong> &#8211; additional kwargs to pass to <tt class="xref py py-class docutils literal"><span class="pre">Redis</span></tt>, most commonly
 <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">port</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">db</span></tt></li>
 </ul>
@@ -143,8 +147,8 @@ for <tt class="xref py py-attr docutils literal"><span class="pre">timeout</span
 <dt id="hotqueue.HotQueue.put">
 <tt class="descname">put</tt><big>(</big><em>*msgs</em><big>)</big><a class="headerlink" href="#hotqueue.HotQueue.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put one or more messages onto the queue. Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&#39;my message&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&#39;another message&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;my message&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;another message&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -234,7 +238,7 @@ accept (<tt class="xref py py-attr docutils literal"><span class="pre">block</sp
         <li class="right" >
           <a href="tutorial.html" title="Tutorial"
              >previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
