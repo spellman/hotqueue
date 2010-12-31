@@ -9,6 +9,10 @@ several times while the tests are running.
 from time import sleep
 import threading
 import unittest
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 
 from hotqueue import HotQueue
 
@@ -43,7 +47,7 @@ class HotQueueTestCase(unittest.TestCase):
             'host': "localhost",
             'port': 6379,
             'db': 0}
-        # Update the HotQueue instance:
+        # Instantiate the HotQueue instance:
         self.queue = HotQueue(**kwargs)
         # Ensure that the properties of the instance are as expected:
         self.assertEqual(self.queue.name, kwargs['name'])
@@ -53,6 +57,14 @@ class HotQueueTestCase(unittest.TestCase):
         self.assertEqual(self.queue._HotQueue__redis.host, kwargs['host'])
         self.assertEqual(self.queue._HotQueue__redis.port, kwargs['port'])
         self.assertEqual(self.queue._HotQueue__redis.db, kwargs['db'])
+        # Instantiate a HotQueue instance with only the required args:
+        self.queue = HotQueue(kwargs['name'])
+        # Ensure that the properties of the instance are as expected:
+        self.assertEqual(self.queue.name, kwargs['name'])
+        self.assertEqual(self.queue.key, "hotqueue:%s" % kwargs['name'])
+        self.assertIs(self.queue.serializer, pickle) # Defaults to cPickle or
+                                                     # pickle, depending on the
+                                                     # platform.
     
     def test_consume(self):
         """Test the consume generator method."""
