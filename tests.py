@@ -62,9 +62,9 @@ class HotQueueTestCase(unittest.TestCase):
         # Ensure that the properties of the instance are as expected:
         self.assertEqual(self.queue.name, kwargs['name'])
         self.assertEqual(self.queue.key, "hotqueue:%s" % kwargs['name'])
-        self.assertTrue(self.queue.serializer is pickle) # Defaults to cPickle or
-                                                     # pickle, depending on the
-                                                     # platform.
+        self.assertTrue(self.queue.serializer is pickle) # Defaults to cPickle
+                                                         # or pickle, depending
+                                                         # on the platform.
     
     def test_consume(self):
         """Test the consume generator method."""
