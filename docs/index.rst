@@ -8,7 +8,7 @@ The main advantage of this model is that there is no queue server to run, other 
 
 .. code-block:: console
 
-    # pip install -U hotqueue
+    pip install -U hotqueue
 
 The source code is available on `GitHub <http://github.com/richardhenry/hotqueue>`_.
 
