@@ -119,3 +119,10 @@ Feel free to write your own serializer. Here's a dummy class to give you an idea
         def loads(data):
             """De-serialize the given data back to an object."""
             return data
+
+Monitoring
+==========
+
+The following software is available for monitoring your HotQueue queue instances:
+
+- `HotWatch <https://github.com/richardhenry/hotwatch>`_: Command line utility for monitoring the status of HotQueue queue instances.
