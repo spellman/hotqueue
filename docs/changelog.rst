@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.4
+=================
+- ``HotQueue.worker`` decorator method can now be used to decorate a class method
+
 Changes in v0.2.3
 =================
 - Added support for custom serialization (JSON, etc)

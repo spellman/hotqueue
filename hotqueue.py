@@ -15,7 +15,7 @@ from redis import Redis
 
 __all__ = ['HotQueue']
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 
 def key_for_name(name):
