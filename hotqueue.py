@@ -144,9 +144,9 @@ class HotQueue(object):
         """
         def decorator(worker):
             @wraps(worker)
-            def wrapper():
+            def wrapper(*args):
                 for msg in self.consume(**kwargs):
-                    worker(msg)
+                    worker(*args + (msg,))
             return wrapper
         if args:
             return decorator(*args)

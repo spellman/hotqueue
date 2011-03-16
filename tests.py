@@ -126,6 +126,16 @@ class HotQueueTestCase(unittest.TestCase):
             msgs.append(msg)
         appender()
         self.assertEqual(msgs, colors)
+        # Test decorating a class method:
+        self.queue.put(*colors)
+        msgs = []
+        class MyClass(object):
+            @self.queue.worker(block=False)
+            def appender(self, msg):
+                msgs.append(msg)
+        my_instance = MyClass()
+        my_instance.appender()
+        self.assertEqual(msgs, colors)
     
     def test_threaded(self):
         """Threaded test of put and consume methods."""
