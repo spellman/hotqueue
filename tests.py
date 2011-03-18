@@ -74,18 +74,18 @@ class HotQueueTestCase(unittest.TestCase):
         msgs = []
         for msg in self.queue.consume(timeout=1):
             msgs.append(msg)
-        self.assertEquals(msgs, nums)
+        self.assertEqual(msgs, nums)
         # Test non-blocking:
         self.queue.put(*nums)
         msgs = []
         for msg in self.queue.consume(block=False):
             msgs.append(msg)
-        self.assertEquals(msgs, nums)
+        self.assertEqual(msgs, nums)
     
     def test_cleared(self):
         """Test for correct behaviour if the Redis list does not exist."""
-        self.assertEquals(len(self.queue), 0)
-        self.assertEquals(self.queue.get(), None)
+        self.assertEqual(len(self.queue), 0)
+        self.assertEqual(self.queue.get(), None)
     
     def test_get_order(self):
         """Test that messages are get in the same order they are put."""
@@ -99,13 +99,13 @@ class HotQueueTestCase(unittest.TestCase):
         msgs.append(self.queue.get())
         msgs.append(self.queue.get())
         msgs.append(self.queue.get())
-        self.assertEquals(msgs, alphabet)
+        self.assertEqual(msgs, alphabet)
     
     def test_length(self):
         """Test that the length of a queue is returned correctly."""
         self.queue.put('a message')
         self.queue.put('another message')
-        self.assertEquals(len(self.queue), 2)
+        self.assertEqual(len(self.queue), 2)
     
     def test_worker(self):
         """Test the worker decorator."""
