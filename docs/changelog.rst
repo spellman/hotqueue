@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.5
+=================
+- Fixed a bug in v0.2.4 that prevented install in some environments
+
 Changes in v0.2.4
 =================
 - ``HotQueue.worker`` decorator method can now be used to decorate a class method
