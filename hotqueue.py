@@ -50,10 +50,6 @@ class HotQueue(object):
     def __len__(self):
         return self.__redis.llen(self.key)
     
-    def __repr__(self):
-        return ('<HotQueue: \'%s\', host=\'%s\', port=%d, db=%d>' %
-            (self.name, self.__redis.host, self.__redis.port, self.__redis.db))
-    
     @property
     def key(self):
         """Return the key name used to store this queue in Redis."""

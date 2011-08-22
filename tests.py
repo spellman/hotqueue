@@ -53,10 +53,6 @@ class HotQueueTestCase(unittest.TestCase):
         self.assertEqual(self.queue.name, kwargs['name'])
         self.assertEqual(self.queue.key, "hotqueue:%s" % kwargs['name'])
         self.assertEqual(self.queue.serializer, kwargs['serializer'])
-        self.assertEqual(self.queue._HotQueue__redis.host, kwargs['host'])
-        self.assertEqual(self.queue._HotQueue__redis.host, kwargs['host'])
-        self.assertEqual(self.queue._HotQueue__redis.port, kwargs['port'])
-        self.assertEqual(self.queue._HotQueue__redis.db, kwargs['db'])
         # Instantiate a HotQueue instance with only the required args:
         self.queue = HotQueue(kwargs['name'])
         # Ensure that the properties of the instance are as expected:
