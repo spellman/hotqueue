@@ -6,13 +6,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tutorial &mdash; HotQueue v0.2.4 documentation</title>
+    <title>Tutorial &mdash; HotQueue v0.2.6 documentation</title>
     <link rel="stylesheet" href="_static/warm.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.4',
+        VERSION:     '0.2.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="HotQueue v0.2.4 documentation" href="index.html" />
+    <link rel="top" title="HotQueue v0.2.6 documentation" href="index.html" />
     <link rel="next" title="API Reference" href="apireference.html" />
     <link rel="prev" title="HotQueue User Documentation" href="index.html" /> 
   </head>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="index.html" title="HotQueue User Documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.4 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,6 +58,10 @@
 </pre></div>
 </div>
 <p>The queue will be stored a Redis list key named <tt class="docutils literal"><span class="pre">hotqueue:myqueue</span></tt>, on the Redis server running at <tt class="docutils literal"><span class="pre">localhost:6379</span></tt>, in database <tt class="docutils literal"><span class="pre">0</span></tt>. The <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">port</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">db</span></tt> arguments are optional.</p>
+<p>You can also connect using the <tt class="xref py py-attr docutils literal"><span class="pre">unix_socket_path</span></tt> argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">unix_socket_path</span><span class="o">=</span><span class="s">&quot;/tmp/redis.sock&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="putting-items-onto-the-queue">
 <h2>Putting Items Onto the Queue<a class="headerlink" href="#putting-items-onto-the-queue" title="Permalink to this headline">¶</a></h2>
@@ -228,7 +232,7 @@
         <li class="right" >
           <a href="index.html" title="HotQueue User Documentation"
              >previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.4 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue v0.2.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

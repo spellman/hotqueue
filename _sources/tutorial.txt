@@ -14,6 +14,10 @@ Creating a queue is as simple as creating a :class:`~hotqueue.HotQueue` instance
 
 The queue will be stored a Redis list key named ``hotqueue:myqueue``, on the Redis server running at ``localhost:6379``, in database ``0``. The :attr:`host`, :attr:`port` and :attr:`db` arguments are optional.
 
+You can also connect using the :attr:`unix_socket_path` argument:
+
+    >>> queue = HotQueue("myqueue", unix_socket_path="/tmp/redis.sock")
+
 Putting Items Onto the Queue
 ============================
 
