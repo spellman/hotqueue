@@ -77,6 +77,27 @@ class HotQueueTestCase(unittest.TestCase):
         for msg in self.queue.consume(block=False):
             msgs.append(msg)
         self.assertEqual(msgs, nums)
+
+    def test_bulk(self):
+        """Test the bulk context manager."""
+        nums = [1, 2, 3, 4, 5, 6, 7, 8]
+
+        # Test bulk with small bulk size
+        with self.queue.bulk(5):
+            self.queue.put(*nums)
+        msgs = []
+        for msg in self.queue.consume(timeout=1):
+            msgs.append(msg)
+        self.assertEqual(msgs, nums)
+
+         # Test bulk with large bulk size
+        with self.queue.bulk(100):
+            self.queue.put(*nums)
+        msgs = []
+        for msg in self.queue.consume(timeout=1):
+            msgs.append(msg)
+        self.assertEqual(msgs, nums)
+
     
     def test_cleared(self):
         """Test for correct behaviour if the Redis list does not exist."""

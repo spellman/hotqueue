@@ -4,6 +4,7 @@
 within your Python programs.
 """
 
+from contextlib import contextmanager
 from functools import wraps
 try:
     import cPickle as pickle
@@ -16,6 +17,9 @@ from redis import Redis
 __all__ = ['HotQueue']
 
 __version__ = '0.2.6'
+
+
+DEFAULT_BULK_SIZE = 500
 
 
 def key_for_name(name):
@@ -46,6 +50,9 @@ class HotQueue(object):
         else:
             self.serializer = pickle
         self.__redis = Redis(**kwargs)
+        self._bulk_mode = False
+        self._bulk_size = DEFAULT_BULK_SIZE
+        self._bulk_items = []
     
     def __len__(self):
         return self.__redis.llen(self.key)
@@ -114,8 +121,38 @@ class HotQueue(object):
         """
         for msg in msgs:
             msg = self.serializer.dumps(msg)
-            self.__redis.rpush(self.key, msg)
-    
+            if self._bulk_mode:
+                self._bulk_items.append(msg)
+                if len(self._bulk_items) >= self._bulk_size:
+                    self._flush_bulk()
+            else:
+                self.__redis.rpush(self.key, msg)
+
+    @contextmanager
+    def bulk(self, bulk_size=None):
+        """Context manager for adding messages to the queue in bulk. Example:
+
+        >>> with queue.bulk(1000):
+                for counter in range(10000):
+                    queue.put('message %s' % counter)
+
+        :param bulk_size: the number of items to accumulate in memory before
+            flushing to Redis. 500 by default.
+        """
+        self._bulk_mode = True
+        self._bulk_size = bulk_size or DEFAULT_BULK_SIZE
+        yield
+        self._bulk_mode = False
+        self._flush_bulk()
+
+    def _flush_bulk(self):
+        """Flush the bulk queue, sending all the current messages
+        to Redis.
+        """
+        if self._bulk_items:
+            self.__redis.rpush(self.key, *self._bulk_items)
+            self._bulk_items = []
+
     def worker(self, *args, **kwargs):
         """Decorator for using a function as a queue worker. Example:
     

@@ -35,6 +35,20 @@ You can safely push **any Python object** that can be `pickled <http://docs.pyth
     >>> from decimal import Decimal
     >>> queue.put(Decimal('1.4'))
 
+Using the above approaches, your items will be added to the queue one at a time, each incurring a network round-trip to Redis. This is the most reliable method, but it can be slow. If you need to add a large number of items to a queue in bulk, you can use HotQueue's :meth:`hotqueue.HotQueue.bulk` context manager:
+
+    >>> with queue.bulk():
+    >>>     for message in my_messages:
+    >>>         queue.put(message)
+
+HotQueue will accumulate the items in-memory, and periodically flush them to Redis in a single command. The default batch size is 500, but you can override this by passing an argument to the context manager:
+
+    >>> with queue.bulk(1000):
+    >>>     for message in my_messages:
+    >>>         queue.put(message)
+
+Be aware that this approach trades off reliability for speed. If your process crashes during a bulk operation, the messages that have not yet been sent to Redis will be lost.
+
 Getting Items Off the Queue
 ===========================
 
