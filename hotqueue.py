@@ -100,7 +100,7 @@ class HotQueue(object):
                 msg = msg[1]
         else:
             msg = self.__redis.lpop(self.key)
-        if msg is not None and self.serializer:
+        if msg is not None and self.serializer is not None:
             msg = self.serializer.loads(msg)
         return msg
     
