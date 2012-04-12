@@ -2,17 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tutorial &mdash; HotQueue v0.2.6 documentation</title>
-    <link rel="stylesheet" href="_static/warm.css" type="text/css" />
+    <title>HotQueue Tutorial &mdash; HotQueue 0.2.7 documentation</title>
+    
+    <link rel="stylesheet" href="_static/flasky.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,11 +24,18 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="HotQueue v0.2.6 documentation" href="index.html" />
+    <link rel="top" title="HotQueue 0.2.7 documentation" href="index.html" />
     <link rel="next" title="API Reference" href="apireference.html" />
-    <link rel="prev" title="HotQueue User Documentation" href="index.html" /> 
+    <link rel="prev" title="HotQueue" href="index.html" />
+   
+  
+  <link media="only screen and (max-device-width: 480px)" href="_static/small_flask.css" type= "text/css" rel="stylesheet" />
+
   </head>
   <body>
+  
+  
+
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -36,9 +46,9 @@
           <a href="apireference.html" title="API Reference"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="HotQueue User Documentation"
+          <a href="index.html" title="HotQueue"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.6 documentation</a> &raquo;</li> 
+        <li><a href="index.html">HotQueue 0.2.7 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,8 +57,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="tutorial">
-<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="hotqueue-tutorial">
+<h1>HotQueue Tutorial<a class="headerlink" href="#hotqueue-tutorial" title="Permalink to this headline">¶</a></h1>
 <p>A HotQueue is a simple FIFO queue that maps to a list key in Redis. The following is a brief introduction explaining how you can use HotQueue in practice with a simple example.</p>
 <div class="section" id="connecting-to-redis">
 <h2>Connecting to Redis<a class="headerlink" href="#connecting-to-redis" title="Permalink to this headline">¶</a></h2>
@@ -57,8 +67,8 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The queue will be stored a Redis list key named <tt class="docutils literal"><span class="pre">hotqueue:myqueue</span></tt>, on the Redis server running at <tt class="docutils literal"><span class="pre">localhost:6379</span></tt>, in database <tt class="docutils literal"><span class="pre">0</span></tt>. The <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">port</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">db</span></tt> arguments are optional.</p>
-<p>You can also connect using the <tt class="xref py py-attr docutils literal"><span class="pre">unix_socket_path</span></tt> argument:</p>
+<p>In this example, the queue will be stored as a Redis list named <tt class="docutils literal"><span class="pre">hotqueue:myqueue</span></tt>, on the Redis server running at <tt class="docutils literal"><span class="pre">localhost:6379</span></tt>, in database <tt class="docutils literal"><span class="pre">0</span></tt>. The <tt class="xref py py-attr docutils literal"><span class="pre">host</span></tt>, <tt class="xref py py-attr docutils literal"><span class="pre">port</span></tt> and <tt class="xref py py-attr docutils literal"><span class="pre">db</span></tt> arguments are optional; if none are given the defaults will be used.</p>
+<p>If you&#8217;re hosting Redis on a Unix socket, use the <tt class="xref py py-attr docutils literal"><span class="pre">unix_socket_path</span></tt> argument instead:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">unix_socket_path</span><span class="o">=</span><span class="s">&quot;/tmp/redis.sock&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -163,6 +173,17 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="disabling-serialization">
+<h2>Disabling Serialization<a class="headerlink" href="#disabling-serialization" title="Permalink to this headline">¶</a></h2>
+<p>If your messages can be converted to plain text without losing any information, then you can get some performance gains by not doing any serialization at all. This is ideal if you&#8217;re queueing strings, CSV data, and so on.</p>
+<p>To disable serialization, pass <tt class="docutils literal"><span class="pre">None</span></tt> to the serializer argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">&quot;myqueue&quot;</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s">&quot;my,csv,data&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="go">&quot;my,csv,data&quot;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="monitoring">
 <h2>Monitoring<a class="headerlink" href="#monitoring" title="Permalink to this headline">¶</a></h2>
 <p>The following software is available for monitoring your HotQueue queue instances:</p>
@@ -180,24 +201,25 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#">HotQueue Tutorial</a><ul>
 <li><a class="reference internal" href="#connecting-to-redis">Connecting to Redis</a></li>
 <li><a class="reference internal" href="#putting-items-onto-the-queue">Putting Items Onto the Queue</a></li>
 <li><a class="reference internal" href="#getting-items-off-the-queue">Getting Items Off the Queue</a></li>
 <li><a class="reference internal" href="#consuming-the-queue">Consuming the Queue</a></li>
 <li><a class="reference internal" href="#writing-a-queue-worker">Writing a Queue Worker</a></li>
 <li><a class="reference internal" href="#custom-serialization-json-etc">Custom Serialization (JSON, etc)</a></li>
+<li><a class="reference internal" href="#disabling-serialization">Disabling Serialization</a></li>
 <li><a class="reference internal" href="#monitoring">Monitoring</a></li>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">HotQueue User Documentation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="apireference.html"
-                        title="next chapter">API Reference</a></p>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">HotQueue</a></li>
+      <li>Next: <a href="apireference.html" title="next chapter">API Reference</a></li>
+  </ul></li>
+</ul>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/tutorial.txt"
@@ -206,7 +228,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -220,24 +242,10 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="apireference.html" title="API Reference"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="HotQueue User Documentation"
-             >previous</a> |</li>
-        <li><a href="index.html">HotQueue v0.2.6 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2010, Richard Henry.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
-    </div>
+  <div class="footer">
+    &copy; Copyright 2012, Richard Henry.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
   </body>
 </html>
