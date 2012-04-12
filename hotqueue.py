@@ -37,18 +37,15 @@ class HotQueue(object):
     :param name: name of the queue
     :param serializer: the class or module to serialize msgs with, must have
         methods or functions named ``dumps`` and ``loads``,
-        `pickle <http://docs.python.org/library/pickle.html>`_ will be used
-        if ``None`` is given
+        `pickle <http://docs.python.org/library/pickle.html>`_ is the default,
+        if ``None`` is given then messages will be passed to Redis without serialization
     :param kwargs: additional kwargs to pass to :class:`Redis`, most commonly
         :attr:`host`, :attr:`port`, :attr:`db`
     """
     
-    def __init__(self, name, serializer=None, **kwargs):
+    def __init__(self, name, serializer=pickle, **kwargs):
         self.name = name
-        if serializer is not None:
-            self.serializer = serializer
-        else:
-            self.serializer = pickle
+        self.serializer = serializer
         self.__redis = Redis(**kwargs)
         self._bulk_mode = False
         self._bulk_size = DEFAULT_BULK_SIZE
@@ -109,7 +106,7 @@ class HotQueue(object):
                 msg = msg[1]
         else:
             msg = self.__redis.lpop(self.key)
-        if msg is not None:
+        if msg is not None and self.serializer:
             msg = self.serializer.loads(msg)
         return msg
     
@@ -120,7 +117,8 @@ class HotQueue(object):
         >>> queue.put("another message")
         """
         for msg in msgs:
-            msg = self.serializer.dumps(msg)
+            if self.serializer:
+                msg = self.serializer.dumps(msg)
             if self._bulk_mode:
                 self._bulk_items.append(msg)
                 if len(self._bulk_items) >= self._bulk_size:

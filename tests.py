@@ -180,6 +180,13 @@ class HotQueueTestCase(unittest.TestCase):
         msg = self.queue.get()
         self.assertEqual(msg, phrase)
 
+        """Test HotQueue works with no serializer at all"""
+        self.queue.serializer = None
+        phrase = "my message"
+        self.queue.put(phrase)
+        msg = self.queue._HotQueue__redis.lpop(self.queue.key)
+        self.assertEqual(msg, phrase)
+
 
 if __name__ == "__main__":
     unittest.main()

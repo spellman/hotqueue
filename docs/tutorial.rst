@@ -138,6 +138,14 @@ Feel free to write your own serializer. Here's a dummy class to give you an idea
             """De-serialize the given data back to an object."""
             return data
 
+If you want to disable serialization altogether (if you know your data is already a string), you can explixitly pass ``None`` as the value of the ``serializer`` argument:
+
+    >>> from hotqueue import HotQueue
+    >>> queue = HotQueue("myqueue", serializer=None)
+    >>> queue.put("mymessage")
+    >>> queue.get()
+    "mymessage"
+
 Monitoring
 ==========
 
