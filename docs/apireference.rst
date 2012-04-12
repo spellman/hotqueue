@@ -4,7 +4,7 @@ API Reference
 
 .. autofunction:: hotqueue.key_for_name
 
-.. autoclass:: hotqueue.HotQueue
+.. autoclass:: hotqueue.HotQueue(name, serializer=pickle, **kwargs)
 
     .. autoattribute:: hotqueue.HotQueue.key
 
@@ -15,5 +15,7 @@ API Reference
     .. automethod:: hotqueue.HotQueue.get
 
     .. automethod:: hotqueue.HotQueue.put
-    
+
+    .. automethod:: hotqueue.HotQueue.bulk(bulk_size=500)
+
     .. automethod:: hotqueue.HotQueue.worker
