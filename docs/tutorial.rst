@@ -1,6 +1,6 @@
-========
-Tutorial
-========
+=================
+HotQueue Tutorial
+=================
 
 A HotQueue is a simple FIFO queue that maps to a list key in Redis. The following is a brief introduction explaining how you can use HotQueue in practice with a simple example. 
 
@@ -12,9 +12,9 @@ Creating a queue is as simple as creating a :class:`~hotqueue.HotQueue` instance
     >>> from hotqueue import HotQueue
     >>> queue = HotQueue("myqueue", host="localhost", port=6379, db=0)
 
-The queue will be stored a Redis list key named ``hotqueue:myqueue``, on the Redis server running at ``localhost:6379``, in database ``0``. The :attr:`host`, :attr:`port` and :attr:`db` arguments are optional.
+In this example, the queue will be stored as a Redis list named ``hotqueue:myqueue``, on the Redis server running at ``localhost:6379``, in database ``0``. The :attr:`host`, :attr:`port` and :attr:`db` arguments are optional; if none are given the defaults will be used.
 
-You can also connect using the :attr:`unix_socket_path` argument:
+If you're hosting Redis on a Unix socket, use the :attr:`unix_socket_path` argument instead:
 
     >>> queue = HotQueue("myqueue", unix_socket_path="/tmp/redis.sock")
 
@@ -124,13 +124,17 @@ Feel free to write your own serializer. Here's a dummy class to give you an idea
             """De-serialize the given data back to an object."""
             return data
 
-If you want to disable serialization altogether (if you know your data is already a string), you can explixitly pass ``None`` as the value of the ``serializer`` argument:
+Disabling Serialization
+=======================
 
-    >>> from hotqueue import HotQueue
+If your messages can be converted to plain text without losing any information, then you can get some performance gains by not doing any serialization at all. This is ideal if you're queueing strings, CSV data, and so on.
+
+To disable serialization, pass ``None`` to the serializer argument:
+
     >>> queue = HotQueue("myqueue", serializer=None)
-    >>> queue.put("mymessage")
+    >>> queue.put("my,csv,data")
     >>> queue.get()
-    "mymessage"
+    "my,csv,data"
 
 Monitoring
 ==========
