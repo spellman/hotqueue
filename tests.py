@@ -18,10 +18,10 @@ from hotqueue import HotQueue
 
 
 class DummySerializer(object):
-    """Dummy serializer for use in tests."""
+    """Dummy serializer that deliberately discards messages on dumps."""
     @staticmethod
     def dumps(s):
-        return s
+        return "foo"
     @staticmethod
     def loads(s):
         return s
@@ -154,14 +154,16 @@ class HotQueueTestCase(unittest.TestCase):
     def test_custom_serializer(self):
         """Test the use of a custom serializer and None as serializer."""
         msg = "my message"
-        # Test using DummySerializer:
-        self.queue.serializer = DummySerializer
-        self.queue.put(msg)
-        self.assertEqual(self.queue.get(), msg)
         # Test using None:
         self.queue.serializer = None
         self.queue.put(msg)
         self.assertEqual(self.queue.get(), msg)
+        self.queue.put({"a": 1})
+        self.assertEqual(self.queue.get(), "{'a': 1}") # Should be a string
+        # Test using DummySerializer:
+        self.queue.serializer = DummySerializer
+        self.queue.put(msg)
+        self.assertEqual(self.queue.get(), "foo")
 
 
 if __name__ == "__main__":
