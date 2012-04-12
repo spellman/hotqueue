@@ -34,7 +34,8 @@ class HotQueue(object):
     :param serializer: the class or module to serialize msgs with, must have
         methods or functions named ``dumps`` and ``loads``,
         `pickle <http://docs.python.org/library/pickle.html>`_ is the default,
-        if ``None`` is given then messages will be passed to Redis without serialization
+        use ``None`` to store messages in plain text (suitable for strings,
+        integers, etc)
     :param kwargs: additional kwargs to pass to :class:`Redis`, most commonly
         :attr:`host`, :attr:`port`, :attr:`db`
     """
@@ -59,7 +60,7 @@ class HotQueue(object):
     def consume(self, **kwargs):
         """Return a generator that yields whenever a message is waiting in the
         queue. Will block otherwise. Example:
-
+        
         >>> for msg in queue.consume(timeout=1):
         ...     print msg
         my message
@@ -105,17 +106,22 @@ class HotQueue(object):
     
     def put(self, *msgs):
         """Put one or more messages onto the queue. Example:
-    
+        
         >>> queue.put("my message")
         >>> queue.put("another message")
+        
+        To put messages onto the queue in bulk, which can be significantly
+        faster if you have a large number of messages:
+        
+        >>> queue.put("my message", "another message", "third message")
         """
-        for msg in msgs:
-            msg = self.serializer.dumps(msg)
-            self.__redis.rpush(self.key, msg)
+        if self.serializer is not None:
+            msgs = map(self.serializer.dumps, msgs)
+        self.__redis.rpush(self.key, *msgs)
     
     def worker(self, *args, **kwargs):
         """Decorator for using a function as a queue worker. Example:
-    
+        
         >>> @queue.worker(timeout=1)
         ... def printer(msg):
         ...     print msg
