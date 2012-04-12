@@ -15,7 +15,5 @@ API Reference
     .. automethod:: hotqueue.HotQueue.get
 
     .. automethod:: hotqueue.HotQueue.put
-
-    .. automethod:: hotqueue.HotQueue.bulk(bulk_size=500)
-
+    
     .. automethod:: hotqueue.HotQueue.worker

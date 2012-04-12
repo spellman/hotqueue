@@ -2,12 +2,6 @@
 Changelog
 =========
 
-Changes in v0.2.7
-=================
-
-- Added ``HotQueue.bulk`` context manager for enqueuing items in bulk
-- Added support for completely disabling serialization
-
 Changes in v0.2.6
 =================
 - Removed the ``HotQueue.__repr__`` method as it is no longer supported
