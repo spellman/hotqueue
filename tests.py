@@ -152,19 +152,16 @@ class HotQueueTestCase(unittest.TestCase):
         self.assertEqual(msgs, ["message 0", "message 1", "message 2"])
     
     def test_custom_serializer(self):
-        """Test the use of a custom serializer."""
+        """Test the use of a custom serializer and None as serializer."""
+        msg = "my message"
+        # Test using DummySerializer:
         self.queue.serializer = DummySerializer
-        phrase = "my message"
-        self.queue.put(phrase)
-        msg = self.queue.get()
-        self.assertEqual(msg, phrase)
-
-        """Test HotQueue works with no serializer at all"""
+        self.queue.put(msg)
+        self.assertEqual(self.queue.get(), msg)
+        # Test using None:
         self.queue.serializer = None
-        phrase = "my message"
-        self.queue.put(phrase)
-        msg = self.queue._HotQueue__redis.lpop(self.queue.key)
-        self.assertEqual(msg, phrase)
+        self.queue.put(msg)
+        self.assertEqual(self.queue.get(), msg)
 
 
 if __name__ == "__main__":
