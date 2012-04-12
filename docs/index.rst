@@ -1,6 +1,6 @@
-===========================
-HotQueue User Documentation
-===========================
+========
+HotQueue
+========
 
 HotQueue is a Python library that allows you to use `Redis <http://code.google.com/p/redis/>`_ as a message queue within your Python programs.
 
@@ -15,8 +15,8 @@ The source code is available on `GitHub <http://github.com/richardhenry/hotqueue
 To get help with HotQueue, use the `HotQueue Users mailing list
 <http://groups.google.com/group/hotqueue-users>`_.
 
-Explore Documentation
-=====================
+Documentation
+=============
 
 .. toctree::
    :maxdepth: 2
@@ -29,5 +29,5 @@ Requirements
 ============
 
 - Python 2.5+ (tested on versions 2.5.4, 2.6.1, and 2.7.1)
-- `redis-server <http://redis.io/>`_ 1.3.1+
+- `redis-server <http://redis.io/>`_ 2.0+
 - `redis-py <http://pypi.python.org/pypi/redis/2.0.0>`_ 2.0.0+
