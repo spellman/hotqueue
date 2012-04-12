@@ -2,11 +2,6 @@
 Changelog
 =========
 
-Changes in v0.2.7
-=================
-- ``serializer`` argument of ``HotQueue.put`` method now supports ``None`` for plain text serialization
-- If multiple messages are passed to ``HotQueue.put`` they will be sent in the same command for a significant performance benefit
-
 Changes in v0.2.6
 =================
 - Removed the ``HotQueue.__repr__`` method as it is no longer supported
