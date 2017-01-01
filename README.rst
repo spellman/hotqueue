@@ -22,5 +22,5 @@ The source is available on `GitHub <http://github.com/richardhenry/hotqueue>`_. 
 
 .. _PyPI: https://pypi.python.org/pypi/hotqueue
 
-.. |PyPI| image:: https://img.shields.io/pypi/v/hotqueue.svg?style=plastic
+.. |PyPI| image:: https://img.shields.io/pypi/v/hotqueue.svg?style=flat
    :target: PyPI_
