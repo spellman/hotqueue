@@ -2,6 +2,10 @@
 Changelog
 =========
 
+Changes in v0.2.8
+=================
+- Use https for PyPI package due to the website's Disabling non HTTPS access to APIs
+
 Changes in v0.2.7
 =================
 - ``serializer`` argument of ``HotQueue.put`` method now supports ``None`` for plain text serialization
