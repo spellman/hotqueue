@@ -35,7 +35,7 @@ def get_version():
     return re.search(r"__version__ = '([^']+)'", data).group(1)
 
 
-setup(    
+setup(
     name="hotqueue",
     author="Richard Henry",
     author_email="richardhenry@me.com",
@@ -45,7 +45,7 @@ setup(
     long_description=get_long_description(),
     install_requires=get_requirements(),
     py_modules=['hotqueue'],
-    url="http://github.com/richardhenry/hotqueue",
+    url="https://github.com/richardhenry/hotqueue",
     version=get_version(),
     classifiers =[
         'Programming Language :: Python',
@@ -55,4 +55,3 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries :: Python Modules'],
 )
-

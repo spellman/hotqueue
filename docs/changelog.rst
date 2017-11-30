@@ -4,7 +4,7 @@ Changelog
 
 Changes in v0.2.8
 =================
-- Use https for PyPI package due to the website's Disabling non HTTPS access to APIs
+- Use HTTPS in distribute_setup.py
 
 Changes in v0.2.7
 =================
