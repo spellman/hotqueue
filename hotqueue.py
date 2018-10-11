@@ -117,7 +117,7 @@ class HotQueue(object):
         """
         if self.serializer is not None:
             msgs = map(self.serializer.dumps, msgs)
-        self.__redis.rpush(self.key, *msgs)
+        self.__redis.lpush(self.key, *msgs)
     
     def worker(self, *args, **kwargs):
         """Decorator for using a function as a queue worker. Example:
